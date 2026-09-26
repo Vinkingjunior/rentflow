@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentFlow – Rent Management</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+     APP SHELL
+<div id="app" class="landlord-mode">
+
+  <!-- SIDEBAR (landlord)-->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon"></span>
+      <span class="logo-text">RentFlow</span>
+    </div>
+    <nav>
+      <button class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="tenants" onclick="switchView('tenants')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Tenants
+      </button>
+      <button class="nav-item" data-view="arrears" onclick="switchView('arrears')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        Arrears
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="btn-switch" onclick="setRole('tenant')">Switch to Tenant</button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN (landlord) -->
+  <main class="main">
+
+    <!-- Dashboard -->
+    <div id="view-dashboard" class="view active">
+      <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Overview of all properties</p>
+      </div>
+      <div class="stat-grid" id="dash-stats"></div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Recent Payments</span></div>
+        <table><thead><tr><th>Tenant</th><th>Unit</th><th>Date</th><th>Amount</th><th>Method</th></tr></thead>
+        <tbody id="dash-payments"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Tenants -->
+    <div id="view-tenants" class="view">
+      <div class="page-header">
+        <h1 class="page-title">Tenants</h1>
+        <p class="page-sub">All registered tenants</p>
+      </div>
+      <div class="toolbar">
+        <div class="filter-bar" id="filter-bar-tenants"></div>
+        <button class="btn-add" onclick="openAddModal()">+ Add Tenant</button>
+      </div>
+      <div class="tenant-grid" id="tenants-grid"></div>
+    </div>
+
+    <!-- Arrears -->
+    <div id="view-arrears" class="view">
+      <div class="page-header">
+        <h1 class="page-title">Arrears Tracker</h1>
+        <p class="page-sub">Tenants with outstanding balances</p>
+      </div>
+      <div class="toolbar">
+        <div class="filter-bar" id="filter-bar-arrears"></div>
+      </div>
+      <div class="tenant-grid" id="arrears-grid"></div>
+    </div>
+
+    <!-- Tenant detail -->
+    <div id="view-detail" class="view">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <div class="detail-header" id="detail-header"></div>
+      <div class="t-cards" id="detail-tcards"></div>
+      <div id="detail-arrears-banner"></div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Payment History</span></div>
+        <table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+        <tbody id="detail-payments"></tbody></table>
+      </div>
+    </div>
+
+  </main><!-- /.main -->
+
+  <!-- ── TENANT VIEW -->
+  <div class="tenant-shell">
+    <div class="tenant-header">
+      <div>
+        <div class="tenant-welcome">Welcome back,</div>
+        <div class="tenant-name" id="tv-name">–</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <button class="btn-switch" onclick="setRole('landlord')">Landlord View</button>
+        <span class="badge" id="tv-status-badge">–</span>
+      </div>
+    </div>
+    <div class="t-cards" id="tv-tcards"></div>
+    <div id="tv-arrears-banner"></div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Payment History</span>
+        <button class="btn-add" onclick="openPayModal(null)">+ Make Payment</button>
+      </div>
+      <table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+      <tbody id="tv-payments"></tbody></table>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+
+<!-- 
+     MODALS
+ -->
+
+<!-- Pay modal -->
+<div id="pay-modal" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Record Payment</span>
+      <button class="btn-close" onclick="closePayModal()">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label for="pay-amount">Amount (KSh)</label>
+      <input id="pay-amount" type="number" placeholder="0.00" min="0" />
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label for="pay-method">Payment Method</label>
+      <select id="pay-method">
+        <option>Bank Transfer</option>
+        <option>Cash</option>
+        <option>Card</option>
+        <option>Mobile Money</option>
+        <option>Cheque</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label for="pay-note">Note (optional)</label>
+      <input id="pay-note" type="text" placeholder="e.g. May 2026 rent" />
+    </div>
+    <button class="btn-submit" onclick="submitPayment()">Confirm Payment</button>
+  </div>
+</div>
+
+<!-- Add tenant modal -->
+<div id="add-modal" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add New Tenant</span>
+      <button class="btn-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Full Name *</label><input id="nt-name" type="text" placeholder="Full Name" /></div>
+      <div class="field"><label>Unit *</label><input id="nt-unit" type="text" placeholder="e.g. A-101" /></div>
+      <div class="field"><label>Property</label><input id="nt-property" type="text" placeholder="Property name" /></div>
+      <div class="field"><label>Monthly Rent (KSh) *</label><input id="nt-rent" type="number" placeholder="0" /></div>
+      <div class="field"><label>Phone</label><input id="nt-phone" type="tel" placeholder="+254 …" /></div>
+      <div class="field"><label>Email</label><input id="nt-email" type="email" placeholder="email@example.com" /></div>
+      <div class="field full"><label>Lease End Date</label><input id="nt-lease" type="date" /></div>
+    </div>
+    <button class="btn-submit" onclick="submitAddTenant()">Add Tenant</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden"></div>
+
+
+<!-- 
+     SCRIPTS
+ -->
+<script src="app.js"></script>
+</body>
+</html>
