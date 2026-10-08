@@ -8,36 +8,64 @@
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="login-screen">
+  <form class="login-card" id="login-form" novalidate>
+    <h1 class="login-title">RentFlow</h1>
+    <p class="login-sub">Sign in to continue</p>
+    <div class="field">
+      <label for="login-email">Email</label>
+      <input id="login-email" name="email" type="email" placeholder="email@example.com" autocomplete="username" required />
+    </div>
+    <div class="field">
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+    </div>
+    <p id="login-error" class="login-error" role="alert" hidden></p>
+    <button type="submit" class="btn-submit">Sign In</button>
+  </form>
+</div>
 
-     APP SHELL
+<!-- APP SHELL -->
 <div id="app" class="landlord-mode">
 
-  <!-- SIDEBAR (landlord)-->
-  <aside class="sidebar">
+  <header class="mobile-bar">
+    <button type="button" class="btn-menu" id="btn-menu" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <span class="logo-text">RentFlow</span>
+  </header>
+  <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+
+  <!-- SIDEBAR (landlord) -->
+  <aside class="sidebar" id="sidebar" aria-label="Landlord navigation">
     <div class="logo">
-      <span class="logo-icon"></span>
+      <span class="logo-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z"/>
+        </svg>
+      </span>
       <span class="logo-text">RentFlow</span>
     </div>
-    <nav>
-      <button class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    <nav aria-label="Landlord views">
+      <button type="button" class="nav-item active" data-view="dashboard" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         Dashboard
       </button>
-      <button class="nav-item" data-view="tenants" onclick="switchView('tenants')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      <button type="button" class="nav-item" data-view="tenants">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         Tenants
       </button>
-      <button class="nav-item" data-view="arrears" onclick="switchView('arrears')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <button type="button" class="nav-item" data-view="arrears">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         Arrears
       </button>
     </nav>
-    <div class="sidebar-bottom">
-      <button class="btn-switch" onclick="setRole('tenant')">Switch to Tenant</button>
-    </div>
   </aside>
 
-  <!-- ── MAIN (landlord) -->
+  <!-- MAIN (landlord) -->
   <main class="main">
 
     <!-- Dashboard -->
@@ -48,9 +76,12 @@
       </div>
       <div class="stat-grid" id="dash-stats"></div>
       <div class="card">
-        <div class="card-header"><span class="card-title">Recent Payments</span></div>
-        <table><thead><tr><th>Tenant</th><th>Unit</th><th>Date</th><th>Amount</th><th>Method</th></tr></thead>
-        <tbody id="dash-payments"></tbody></table>
+        <div class="card-header"><span class="card-title" id="dash-payments-heading">Recent Payments</span></div>
+        <table aria-labelledby="dash-payments-heading">
+          <caption class="sr-only">Recent payments across all tenants</caption>
+          <thead><tr><th>Tenant</th><th>Unit</th><th>Date</th><th>Amount</th><th>Method</th></tr></thead>
+          <tbody id="dash-payments"></tbody>
+        </table>
       </div>
     </div>
 
@@ -62,7 +93,7 @@
       </div>
       <div class="toolbar">
         <div class="filter-bar" id="filter-bar-tenants"></div>
-        <button class="btn-add" onclick="openAddModal()">+ Add Tenant</button>
+        <button type="button" class="btn-add" data-action="open-add">+ Add Tenant</button>
       </div>
       <div class="tenant-grid" id="tenants-grid"></div>
     </div>
@@ -81,28 +112,30 @@
 
     <!-- Tenant detail -->
     <div id="view-detail" class="view">
-      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button type="button" class="btn-back" data-action="go-back">← Back</button>
       <div class="detail-header" id="detail-header"></div>
       <div class="t-cards" id="detail-tcards"></div>
       <div id="detail-arrears-banner"></div>
       <div class="card">
-        <div class="card-header"><span class="card-title">Payment History</span></div>
-        <table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
-        <tbody id="detail-payments"></tbody></table>
+        <div class="card-header"><span class="card-title" id="detail-payments-heading">Payment History</span></div>
+        <table aria-labelledby="detail-payments-heading">
+          <caption class="sr-only">Payment history for the selected tenant</caption>
+          <thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+          <tbody id="detail-payments"></tbody>
+        </table>
       </div>
     </div>
 
   </main><!-- /.main -->
 
-  <!-- ── TENANT VIEW -->
+  <!-- TENANT VIEW -->
   <div class="tenant-shell">
     <div class="tenant-header">
       <div>
         <div class="tenant-welcome">Welcome back,</div>
-        <div class="tenant-name" id="tv-name">–</div>
+        <h1 class="tenant-name" id="tv-name">–</h1>
       </div>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-        <button class="btn-switch" onclick="setRole('landlord')">Landlord View</button>
+      <div class="tenant-header-actions">
         <span class="badge" id="tv-status-badge">–</span>
       </div>
     </div>
@@ -110,77 +143,94 @@
     <div id="tv-arrears-banner"></div>
     <div class="card">
       <div class="card-header">
-        <span class="card-title">Payment History</span>
-        <button class="btn-add" onclick="openPayModal(null)">+ Make Payment</button>
+        <span class="card-title" id="tv-payments-heading">Payment History</span>
+        <button type="button" class="btn-add" data-action="open-pay" data-tenant-id="">+ Make Payment</button>
       </div>
-      <table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
-      <tbody id="tv-payments"></tbody></table>
+      <table aria-labelledby="tv-payments-heading">
+        <caption class="sr-only">Your payment history</caption>
+        <thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+        <tbody id="tv-payments"></tbody>
+      </table>
     </div>
   </div>
 
 </div><!-- /#app -->
 
-
-<!-- 
-     MODALS
- -->
+<!-- MODALS -->
 
 <!-- Pay modal -->
-<div id="pay-modal" class="overlay hidden">
-  <div class="modal">
+<div id="pay-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pay-modal-title">
+  <form class="modal" id="pay-form">
     <div class="modal-header">
-      <span class="modal-title">Record Payment</span>
-      <button class="btn-close" onclick="closePayModal()">✕</button>
+      <h2 class="modal-title" id="pay-modal-title">Record Payment</h2>
+      <button type="button" class="btn-close" data-action="close-pay" aria-label="Close payment dialog">✕</button>
     </div>
-    <div class="field" style="margin-bottom:14px">
+    <div class="field">
       <label for="pay-amount">Amount (KSh)</label>
-      <input id="pay-amount" type="number" placeholder="0.00" min="0" />
+      <input id="pay-amount" name="amount" type="number" placeholder="0.00" min="1" step="0.01" required />
     </div>
-    <div class="field" style="margin-bottom:14px">
+    <div class="field">
       <label for="pay-method">Payment Method</label>
-      <select id="pay-method">
-        <option>Bank Transfer</option>
-        <option>Cash</option>
-        <option>Card</option>
-        <option>Mobile Money</option>
-        <option>Cheque</option>
+      <select id="pay-method" name="method">
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Cash">Cash</option>
+        <option value="Card">Card</option>
+        <option value="Mobile Money">Mobile Money</option>
+        <option value="Cheque">Cheque</option>
       </select>
     </div>
-    <div class="field" style="margin-bottom:14px">
+    <div class="field">
       <label for="pay-note">Note (optional)</label>
-      <input id="pay-note" type="text" placeholder="e.g. May 2026 rent" />
+      <input id="pay-note" name="note" type="text" placeholder="e.g. May 2026 rent" />
     </div>
-    <button class="btn-submit" onclick="submitPayment()">Confirm Payment</button>
-  </div>
+    <button type="submit" class="btn-submit">Confirm Payment</button>
+  </form>
 </div>
 
 <!-- Add tenant modal -->
-<div id="add-modal" class="overlay hidden">
-  <div class="modal">
+<div id="add-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
+  <form class="modal" id="add-form">
     <div class="modal-header">
-      <span class="modal-title">Add New Tenant</span>
-      <button class="btn-close" onclick="closeAddModal()">✕</button>
+      <h2 class="modal-title" id="add-modal-title">Add New Tenant</h2>
+      <button type="button" class="btn-close" data-action="close-add" aria-label="Close add tenant dialog">✕</button>
     </div>
     <div class="form-grid">
-      <div class="field"><label>Full Name *</label><input id="nt-name" type="text" placeholder="Full Name" /></div>
-      <div class="field"><label>Unit *</label><input id="nt-unit" type="text" placeholder="e.g. A-101" /></div>
-      <div class="field"><label>Property</label><input id="nt-property" type="text" placeholder="Property name" /></div>
-      <div class="field"><label>Monthly Rent (KSh) *</label><input id="nt-rent" type="number" placeholder="0" /></div>
-      <div class="field"><label>Phone</label><input id="nt-phone" type="tel" placeholder="+254 …" /></div>
-      <div class="field"><label>Email</label><input id="nt-email" type="email" placeholder="email@example.com" /></div>
-      <div class="field full"><label>Lease End Date</label><input id="nt-lease" type="date" /></div>
+      <div class="field">
+        <label for="nt-name">Full Name *</label>
+        <input id="nt-name" name="name" type="text" placeholder="Full Name" required />
+      </div>
+      <div class="field">
+        <label for="nt-unit">Unit *</label>
+        <input id="nt-unit" name="unit" type="text" placeholder="e.g. A-101" required />
+      </div>
+      <div class="field">
+        <label for="nt-property">Property</label>
+        <input id="nt-property" name="property" type="text" placeholder="Property name" />
+      </div>
+      <div class="field">
+        <label for="nt-rent">Monthly Rent (KSh) *</label>
+        <input id="nt-rent" name="rent" type="number" placeholder="0" min="1" step="1" required />
+      </div>
+      <div class="field">
+        <label for="nt-phone">Phone</label>
+        <input id="nt-phone" name="phone" type="tel" placeholder="+254 …" />
+      </div>
+      <div class="field">
+        <label for="nt-email">Email</label>
+        <input id="nt-email" name="email" type="email" placeholder="email@example.com" />
+      </div>
+      <div class="field full">
+        <label for="nt-lease">Lease End Date</label>
+        <input id="nt-lease" name="lease" type="date" />
+      </div>
     </div>
-    <button class="btn-submit" onclick="submitAddTenant()">Add Tenant</button>
-  </div>
+    <button type="submit" class="btn-submit">Add Tenant</button>
+  </form>
 </div>
 
 <!-- Toast -->
-<div id="toast" class="hidden"></div>
+<div id="toast" class="hidden" role="status" aria-live="polite" aria-atomic="true"></div>
 
-
-<!-- 
-     SCRIPTS
- -->
 <script src="app.js"></script>
 </body>
 </html>
